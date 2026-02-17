@@ -307,6 +307,7 @@ app.get('/sitemap.xml', (req, res) => {
   // Static pages
   xml += url('/', 'daily', '1.0');
   xml += url('/inventory', 'daily', '0.9');
+  xml += url('/browse', 'weekly', '0.8');
   xml += url('/contact', 'monthly', '0.6');
 
   // Car detail pages
@@ -379,6 +380,49 @@ app.get('/sitemap.xml', (req, res) => {
 
 app.get('/admin', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
+// ============ BROWSE HUB PAGE ============
+
+app.get('/browse', (req, res) => {
+  const allMakes = queries.getDistinctMakes().map(m => m.make);
+  const predefinedMakeModels = seoContent.getAllPredefinedMakeModels();
+
+  // Merge DB makes with predefined makes (deduplicated, sorted)
+  const makeSet = new Set(allMakes);
+  predefinedMakeModels.forEach(m => makeSet.add(m.make));
+  const makes = [...makeSet].sort();
+
+  // Build model list: merge DB models with predefined models
+  const dbModels = queries.getDistinctModels();
+  const modelSet = new Set(dbModels.map(m => `${m.make}|${m.model}`));
+  predefinedMakeModels.forEach(m => modelSet.add(`${m.make}|${m.model}`));
+  const models = [...modelSet].map(key => {
+    const [make, model] = key.split('|');
+    return { make, model };
+  }).sort((a, b) => a.make.localeCompare(b.make) || a.model.localeCompare(b.model));
+
+  const dbBodyStyles = queries.getDistinctBodyStyles().map(bs => bs.body_style);
+  const allBodyStyles = ['Sedan', 'SUV', 'Truck', 'Coupe', 'Hatchback', 'Van', 'Convertible', 'Wagon'];
+  const bodyStyles = allBodyStyles.filter(bs => dbBodyStyles.includes(bs) || true);
+
+  const prices = [5000, 8000, 10000, 12000, 15000, 18000, 20000, 25000, 30000, 35000, 40000];
+
+  const guides = evergreenContent.getAllGuides();
+  const comparisons = evergreenContent.getAllComparisons();
+  const areas = evergreenContent.getAllAreas();
+
+  renderPage(res, 'browse', {
+    makes, models, bodyStyles, prices, guides, comparisons, areas, helpers,
+    pageTitle: 'Browse Used Cars by Make, Model, Price & More | Warehouse Cars Tampa',
+    metaDescription: 'Browse our complete selection of used cars in Tampa by make, model, price range, body style, and more. Find buying guides, model comparisons, and nearby locations.',
+    canonicalUrl: helpers.absoluteUrl('/browse'),
+    schema: helpers.buildSchemaScripts([
+      helpers.buildAutoDealerSchema(),
+      helpers.buildBreadcrumbSchema([{ name: 'Home', url: '/' }, { name: 'Browse' }])
+    ]),
+    crumbs: [{ name: 'Home', url: '/' }, { name: 'Browse All' }]
+  });
 });
 
 // ============ SEO PAGE ROUTES ============

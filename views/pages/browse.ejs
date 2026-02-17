@@ -1,0 +1,142 @@
+<%- include('../partials/breadcrumb', { crumbs }) %>
+
+<section class="seo-hero">
+  <h1>Browse Used Cars in Tampa</h1>
+  <p>Find the perfect car by make, model, price, body style, or explore our buying guides and comparisons.</p>
+</section>
+
+<div class="browse-page">
+
+  <!-- Shop by Make -->
+  <section class="browse-section">
+    <h2>Shop by Make</h2>
+    <div class="browse-grid browse-grid-makes">
+      <% makes.forEach(make => { %>
+        <a href="<%= helpers.makeUrl(make) %>" class="browse-card">
+          <strong><%= make %></strong>
+          <span>Shop Used <%= make %></span>
+        </a>
+      <% }) %>
+    </div>
+  </section>
+
+  <!-- Popular Models -->
+  <section class="browse-section">
+    <h2>Popular Models</h2>
+    <% const makeGroups = {}; %>
+    <% models.forEach(m => { %>
+      <% if (!makeGroups[m.make]) makeGroups[m.make] = []; %>
+      <% makeGroups[m.make].push(m); %>
+    <% }) %>
+    <% Object.keys(makeGroups).sort().forEach(make => { %>
+      <div class="browse-model-group">
+        <h3><a href="<%= helpers.makeUrl(make) %>"><%= make %></a></h3>
+        <div class="browse-model-links">
+          <% makeGroups[make].forEach(m => { %>
+            <a href="<%= helpers.makeModelUrl(m.make, m.model) %>"><%= m.make %> <%= m.model %></a>
+          <% }) %>
+        </div>
+      </div>
+    <% }) %>
+  </section>
+
+  <!-- Shop by Price -->
+  <section class="browse-section">
+    <h2>Shop by Price</h2>
+    <div class="browse-grid browse-grid-prices">
+      <% prices.forEach(p => { %>
+        <a href="<%= helpers.priceRangeUrl(p) %>" class="browse-card browse-card-price">
+          <strong>Under $<%= p.toLocaleString() %></strong>
+          <span>Browse cars under $<%= p.toLocaleString() %></span>
+        </a>
+      <% }) %>
+    </div>
+  </section>
+
+  <!-- Shop by Body Style -->
+  <section class="browse-section">
+    <h2>Shop by Body Style</h2>
+    <div class="browse-grid">
+      <% bodyStyles.forEach(bs => { %>
+        <a href="<%= helpers.bodyStyleUrl(bs) %>" class="browse-card">
+          <strong><%= bs %>s</strong>
+          <span>Shop Used <%= bs %>s</span>
+        </a>
+      <% }) %>
+    </div>
+  </section>
+
+  <!-- Buyer's Guides -->
+  <section class="browse-section">
+    <h2>Buyer's Guides</h2>
+    <div class="browse-grid">
+      <% Object.entries(guides).forEach(([slug, guide]) => { %>
+        <a href="<%= helpers.guideUrl(slug) %>" class="browse-card browse-card-guide">
+          <strong><%= guide.h1 %></strong>
+          <span>Read the guide</span>
+        </a>
+      <% }) %>
+    </div>
+  </section>
+
+  <!-- Model Comparisons -->
+  <section class="browse-section">
+    <h2>Model Comparisons</h2>
+    <div class="browse-grid browse-grid-compare">
+      <% Object.entries(comparisons).forEach(([slug, comp]) => { %>
+        <a href="<%= helpers.compareUrl(slug) %>" class="browse-card browse-card-compare">
+          <strong><%= comp.car1.make %> <%= comp.car1.model %> vs <%= comp.car2.make %> <%= comp.car2.model %></strong>
+          <span>Compare side-by-side</span>
+        </a>
+      <% }) %>
+    </div>
+  </section>
+
+  <!-- Nearby Areas -->
+  <section class="browse-section">
+    <h2>Used Cars Near You</h2>
+    <div class="browse-grid">
+      <% Object.entries(areas).forEach(([slug, area]) => { %>
+        <a href="<%= helpers.areaUrl(slug) %>" class="browse-card">
+          <strong><%= area.name %>, FL</strong>
+          <span><%= area.distance %> from Tampa</span>
+        </a>
+      <% }) %>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="browse-section">
+    <h2>Services & Resources</h2>
+    <div class="browse-grid">
+      <a href="/financing" class="browse-card browse-card-service">
+        <strong>Financing Options</strong>
+        <span>Get approved for a car loan</span>
+      </a>
+      <a href="/financing/bad-credit-auto-loans" class="browse-card browse-card-service">
+        <strong>Bad Credit Auto Loans</strong>
+        <span>Financing for all credit situations</span>
+      </a>
+      <a href="/financing/first-time-buyer" class="browse-card browse-card-service">
+        <strong>First-Time Buyer</strong>
+        <span>Programs for first-time buyers</span>
+      </a>
+      <a href="/trade-in" class="browse-card browse-card-service">
+        <strong>Trade-In Your Car</strong>
+        <span>Get a fair value for your trade</span>
+      </a>
+      <a href="/why-buy-used" class="browse-card browse-card-service">
+        <strong>Why Buy Used?</strong>
+        <span>Benefits of buying pre-owned</span>
+      </a>
+    </div>
+  </section>
+
+</div>
+
+<section class="cta">
+  <h2>Ready to Find Your Next Car?</h2>
+  <p>Browse our full inventory or contact us for personalized recommendations.</p>
+  <a href="/inventory" class="hero-btn">View Inventory</a>
+  <a href="/contact" class="hero-btn" style="margin-left:12px;background:white;color:var(--primary);">Contact Us</a>
+</section>
