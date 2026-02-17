@@ -291,11 +291,12 @@ app.get('/sitemap.xml', (req, res) => {
   const models = queries.getDistinctModels();
   const bodyStyles = queries.getDistinctBodyStyles();
   const years = queries.getDistinctYears();
-  const validPrices = [10000, 15000, 20000, 25000, 30000];
+  const validPrices = [5000, 8000, 10000, 12000, 15000, 18000, 20000, 25000, 30000, 35000, 40000];
   const allAreas = evergreenContent.getAllAreas();
   const allGuides = evergreenContent.getAllGuides();
   const allComparisons = evergreenContent.getAllComparisons();
   const allServices = evergreenContent.getAllServicePages();
+  const predefinedMakeModels = seoContent.getAllPredefinedMakeModels();
 
   function url(path, freq, priority) {
     return `  <url><loc>${helpers.absoluteUrl(path)}</loc><changefreq>${freq}</changefreq><priority>${priority}</priority></url>\n`;
@@ -311,16 +312,29 @@ app.get('/sitemap.xml', (req, res) => {
   // Car detail pages
   cars.forEach(car => { xml += url(helpers.carUrl(car), 'weekly', '0.8'); });
 
-  // Make pages (only with inventory)
-  makes.forEach(m => {
-    const count = queries.getCarsByMake(m.make).length;
-    if (count > 0) xml += url(helpers.makeUrl(m.make), 'daily', '0.9');
-  });
+  // Make pages — include all predefined makes (always indexed for SEO)
+  const sitemapMakes = new Set();
+  makes.forEach(m => sitemapMakes.add(m.make));
+  predefinedMakeModels.forEach(m => sitemapMakes.add(m.make));
+  for (const make of sitemapMakes) {
+    xml += url(helpers.makeUrl(make), 'daily', '0.9');
+  }
 
-  // Make+Model pages (only with inventory)
+  // Make+Model pages — DB models with inventory + all predefined models
+  const addedMakeModels = new Set();
   models.forEach(m => {
     const count = queries.getCarsByMakeModel(m.make, m.model).length;
-    if (count > 0) xml += url(helpers.makeModelUrl(m.make, m.model), 'daily', '0.8');
+    if (count > 0) {
+      xml += url(helpers.makeModelUrl(m.make, m.model), 'daily', '0.8');
+      addedMakeModels.add(`${m.make}|${m.model}`);
+    }
+  });
+  // Add all predefined make+model pages not already included
+  predefinedMakeModels.forEach(m => {
+    const key = `${m.make}|${m.model}`;
+    if (!addedMakeModels.has(key)) {
+      xml += url(helpers.makeModelUrl(m.make, m.model), 'weekly', '0.7');
+    }
   });
 
   // Body style pages
@@ -331,8 +345,7 @@ app.get('/sitemap.xml', (req, res) => {
 
   // Price range pages
   validPrices.forEach(p => {
-    const count = queries.getCarsByPriceRange(p).length;
-    if (count > 0) xml += url(helpers.priceRangeUrl(p), 'daily', '0.8');
+    xml += url(helpers.priceRangeUrl(p), 'daily', '0.8');
   });
 
   // Year pages
@@ -586,7 +599,7 @@ app.get('/used-*-tampa', (req, res, next) => {
   const priceMatch = inner.match(/^cars-under-(\d+)$/);
   if (priceMatch) {
     const maxPrice = parseInt(priceMatch[1]);
-    const validPrices = [10000, 15000, 20000, 25000, 30000];
+    const validPrices = [5000, 8000, 10000, 12000, 15000, 18000, 20000, 25000, 30000, 35000, 40000];
     if (!validPrices.includes(maxPrice)) return next();
 
     const cars = queries.getCarsByPriceRange(maxPrice);
@@ -610,10 +623,26 @@ app.get('/used-*-tampa', (req, res, next) => {
   }
 
   // Make pages and Make+Model pages
-  // Build a map of known makes (slugified)
+  // Build a slug map from DB makes + predefined makes (from seo-content)
   const allMakes = queries.getDistinctMakes();
   const makeSlugMap = {};
   allMakes.forEach(m => { makeSlugMap[helpers.slugify(m.make)] = m.make; });
+  // Add predefined makes (from modelData) so pages work even without inventory
+  const predefinedModels = seoContent.getAllPredefinedMakeModels();
+  predefinedModels.forEach(m => {
+    const slug = helpers.slugify(m.make);
+    if (!makeSlugMap[slug]) makeSlugMap[slug] = m.make;
+  });
+  // Also add all makes from makeData keys
+  const knownMakes = Object.keys(seoContent.modelData).reduce((acc, key) => {
+    const make = key.split(' ')[0];
+    if (!acc.includes(make)) acc.push(make);
+    return acc;
+  }, []);
+  knownMakes.forEach(make => {
+    const slug = helpers.slugify(make);
+    if (!makeSlugMap[slug]) makeSlugMap[slug] = make;
+  });
 
   // Check exact make match first
   if (makeSlugMap[inner]) {
@@ -643,11 +672,18 @@ app.get('/used-*-tampa', (req, res, next) => {
   for (const [makeSlug, makeName] of Object.entries(makeSlugMap)) {
     if (inner.startsWith(makeSlug + '-')) {
       const modelSlug = inner.slice(makeSlug.length + 1);
-      // Find matching model
+      // Find matching model from DB first, then check predefined
       const allModels = queries.getDistinctModels();
-      const modelMatch = allModels.find(m =>
+      let modelMatch = allModels.find(m =>
         helpers.slugify(m.make) === makeSlug && helpers.slugify(m.model) === modelSlug
       );
+      // Fallback to predefined models if not in DB
+      if (!modelMatch) {
+        const predefined = predefinedModels.find(m =>
+          helpers.slugify(m.make) === makeSlug && helpers.slugify(m.model) === modelSlug
+        );
+        if (predefined) modelMatch = predefined;
+      }
       if (modelMatch) {
         const cars = queries.getCarsByMakeModel(modelMatch.make, modelMatch.model);
         const stats = queries.getMakeStats(modelMatch.make);
