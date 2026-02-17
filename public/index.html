@@ -228,6 +228,12 @@
       transition: transform 0.2s, box-shadow 0.2s;
     }
 
+    .car-card {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
     .car-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 32px rgba(0,0,0,0.1);
@@ -391,7 +397,7 @@
       <nav>
         <a href="#inventory">Inventory</a>
         <a href="#why-us">Why Us</a>
-        <a href="#contact">Contact</a>
+        <a href="/contact">Contact</a>
         <a href="tel:" class="nav-phone">Call Us</a>
       </nav>
     </div>
@@ -470,7 +476,8 @@
   <section class="cta" id="contact">
     <h2>Ready to Find Your Next Car?</h2>
     <p>Visit us in Tampa or give us a call. We're here to help!</p>
-    <a href="tel:" class="hero-btn">Call Us Today</a>
+    <a href="/contact" class="hero-btn">Contact Us</a>
+    <a href="tel:" class="hero-btn" style="margin-left:12px;background:white;color:var(--primary);">Call Us</a>
   </section>
 
   <!-- FOOTER -->
@@ -518,7 +525,7 @@
       }
 
       grid.innerHTML = filtered.map(car => `
-        <article class="car-card">
+        <a href="/car/${car.id}" class="car-card">
           ${car.image
             ? `<img class="car-img" src="${car.image}" alt="${car.year} ${car.make} ${car.model} for sale in Tampa" loading="lazy">`
             : `<div class="car-img-placeholder">&#128663;</div>`
@@ -533,7 +540,7 @@
             <div class="car-price">$${car.price.toLocaleString()}</div>
             ${car.description ? `<p class="car-desc">${car.description}</p>` : ''}
           </div>
-        </article>
+        </a>
       `).join('');
     }
 

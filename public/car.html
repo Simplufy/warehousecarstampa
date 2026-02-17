@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading... | Warehouse Cars Tampa</title>
+  <meta name="description" content="View details on this quality used car for sale at Warehouse Cars Tampa in Tampa, FL.">
+  <meta name="robots" content="index, follow">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #1a2b4a;
+      --accent: #d4a017;
+      --light: #f8f9fa;
+      --dark: #111;
+      --gray: #6c757d;
+      --green: #2d8a4e;
+      --radius: 10px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: var(--dark);
+      background: var(--light);
+      line-height: 1.6;
+    }
+
+    a { color: var(--primary); text-decoration: none; }
+
+    /* HEADER */
+    header {
+      background: var(--primary);
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; color: white; }
+    .logo span { color: var(--accent); }
+
+    nav a {
+      color: rgba(255,255,255,0.85);
+      margin-left: 28px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--accent); }
+    .nav-phone { color: var(--accent) !important; font-weight: 700; font-size: 1.05rem; }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px 0;
+      font-size: 0.88rem;
+      color: var(--gray);
+    }
+    .breadcrumb a { color: var(--primary); }
+    .breadcrumb a:hover { color: var(--accent); }
+
+    /* MAIN LAYOUT */
+    .detail-page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 24px 60px;
+    }
+
+    .detail-top {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+
+    /* ========= GALLERY ========= */
+    .gallery { position: relative; }
+
+    .gallery-main {
+      width: 100%;
+      height: 420px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #e9ecef;
+      position: relative;
+    }
+
+    .gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-main-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6rem;
+      color: var(--gray);
+      background: linear-gradient(135deg, #e9ecef, #dee2e6);
+    }
+
+    .gallery-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.9);
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 5;
+    }
+    .gallery-nav:hover { background: white; }
+    .gallery-prev { left: 12px; }
+    .gallery-next { right: 12px; }
+
+    .gallery-counter {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      background: rgba(0,0,0,0.65);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      z-index: 5;
+    }
+
+    .gallery-thumbs {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .gallery-thumb {
+      width: 80px;
+      height: 56px;
+      border-radius: 8px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 3px solid transparent;
+      opacity: 0.6;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .gallery-thumb:hover { opacity: 0.85; }
+    .gallery-thumb.active { border-color: var(--primary); opacity: 1; }
+
+    /* ========= INFO SIDEBAR ========= */
+    .info-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .car-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .car-subtitle {
+      color: var(--gray);
+      font-size: 0.92rem;
+      margin-bottom: 20px;
+    }
+
+    .car-price-big {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--green);
+      margin-bottom: 4px;
+    }
+
+    .car-price-note {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-bottom: 24px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .cta-btn {
+      display: block;
+      padding: 14px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+
+    .cta-btn-primary {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    .cta-btn-secondary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .cta-btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    /* QUICK SPECS ROW */
+    .quick-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .quick-spec {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--light);
+      border-radius: 8px;
+    }
+
+    .quick-spec-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .quick-spec-text {
+      font-size: 0.82rem;
+      color: var(--gray);
+      line-height: 1.3;
+    }
+
+    .quick-spec-text strong {
+      display: block;
+      color: var(--dark);
+      font-size: 0.9rem;
+    }
+
+    /* ========= CONTENT SECTIONS ========= */
+    .detail-sections {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 32px;
+    }
+
+    .detail-main { display: flex; flex-direction: column; gap: 32px; }
+
+    .section-card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .section-card h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--light);
+    }
+
+    /* Highlights */
+    .highlights-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .highlights-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      background: #f0faf4;
+      border-radius: 10px;
+      font-size: 0.95rem;
+    }
+
+    .highlight-check {
+      color: var(--green);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Vehicle Details Grid */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .spec-row:nth-child(odd) { background: #fafafa; }
+
+    .spec-label {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    .spec-value {
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: right;
+    }
+
+    /* Description */
+    .car-description {
+      font-size: 0.95rem;
+      color: #444;
+      line-height: 1.8;
+    }
+
+    /* ========= SIMILAR CARS ========= */
+    .similar-section {
+      margin-top: 48px;
+    }
+
+    .similar-section h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 24px;
+    }
+
+    .similar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .similar-card {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .similar-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    .similar-card-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background: #e9ecef;
+    }
+
+    .similar-card-placeholder {
+      width: 100%;
+      height: 160px;
+      background: linear-gradient(135deg,#e9ecef,#dee2e6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: var(--gray);
+    }
+
+    .similar-card-info {
+      padding: 16px;
+    }
+
+    .similar-card-info h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+
+    .similar-card-info .price {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--green);
+    }
+
+    .similar-card-info .meta {
+      font-size: 0.82rem;
+      color: var(--gray);
+      margin-top: 2px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.9rem;
+    }
+    footer strong { color: white; }
+
+    /* LOADING */
+    .loading {
+      text-align: center;
+      padding: 100px 20px;
+      color: var(--gray);
+    }
+
+    .not-found {
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .not-found h1 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .not-found a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 28px;
+      background: var(--primary);
+      color: white;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox.active { display: flex; }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.15);
+      border: none;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .lightbox-prev { left: 24px; }
+    .lightbox-next { right: 24px; }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+      .detail-top {
+        grid-template-columns: 1fr;
+      }
+      .detail-sections {
+        grid-template-columns: 1fr;
+      }
+      .gallery-main { height: 280px; }
+      .header-inner { flex-direction: column; gap: 12px; }
+      nav { display: flex; flex-wrap: wrap; justify-content: center; }
+      nav a { margin: 0 14px; }
+    }
+
+    @media (max-width: 480px) {
+      .quick-specs { grid-template-columns: 1fr; }
+      .specs-grid { grid-template-columns: 1fr; }
+      .car-title { font-size: 1.3rem; }
+      .car-price-big { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="/" class="logo">WAREHOUSE <span>CARS</span></a>
+      <nav>
+        <a href="/#inventory">Inventory</a>
+        <a href="/#why-us">Why Us</a>
+        <a href="/contact">Contact</a>
+        <a href="tel:" class="nav-phone">Call Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <div id="page-content">
+    <div class="loading">
+      <h2>Loading vehicle details...</h2>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)">&#8249;</button>
+    <img id="lightbox-img" src="" alt="Vehicle photo">
+    <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)">&#8250;</button>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 <strong>Warehouse Cars Tampa</strong> &mdash; Quality Used Cars in Tampa, FL</p>
+  </footer>
+
+  <script>
+    let car = null;
+    let currentImage = 0;
+    let allImages = [];
+
+    async function loadCar() {
+      const id = window.location.pathname.split('/').pop();
+      try {
+        const res = await fetch(`/api/cars/${id}`);
+        if (!res.ok) throw new Error('Not found');
+        car = await res.json();
+        allImages = car.images && car.images.length > 0 ? car.images : (car.image ? [car.image] : []);
+
+        document.title = `${car.year} ${car.make} ${car.model} | Warehouse Cars Tampa`;
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.content = `${car.year} ${car.make} ${car.model} for sale at Warehouse Cars Tampa in Tampa, FL. ${car.mileage ? car.mileage.toLocaleString() + ' miles.' : ''} $${car.price.toLocaleString()}.`;
+
+        renderCar();
+        loadSimilar();
+      } catch (e) {
+        document.getElementById('page-content').innerHTML = `
+          <div class="not-found">
+            <h1>Vehicle Not Found</h1>
+            <p>This vehicle may have already been sold.</p>
+            <a href="/#inventory">Browse Inventory</a>
+          </div>`;
+      }
+    }
+
+    function renderCar() {
+      const highlights = car.highlights ? car.highlights.split('\n').filter(h => h.trim()) : [];
+      const hasImages = allImages.length > 0;
+      const est = Math.round(car.price / 60);
+
+      document.getElementById('page-content').innerHTML = `
+        <div class="breadcrumb">
+          <a href="/">Home</a> &rsaquo; <a href="/#inventory">Inventory</a> &rsaquo; ${car.year} ${car.make} ${car.model}
+        </div>
+
+        <div class="detail-page">
+          <!-- TOP: GALLERY + INFO -->
+          <div class="detail-top">
+            <div class="gallery">
+              <div class="gallery-main" id="gallery-main" onclick="openLightbox()">
+                ${hasImages
+                  ? `<img id="main-img" src="${allImages[0]}" alt="${car.year} ${car.make} ${car.model}">`
+                  : `<div class="gallery-main-placeholder">&#128663;</div>`
+                }
+                ${hasImages ? `
+                  <button class="gallery-nav gallery-prev" onclick="event.stopPropagation();navGallery(-1)">&#8249;</button>
+                  <button class="gallery-nav gallery-next" onclick="event.stopPropagation();navGallery(1)">&#8250;</button>
+                  <div class="gallery-counter" id="gallery-counter">1 / ${allImages.length}</div>
+                ` : ''}
+              </div>
+              ${allImages.length > 1 ? `
+                <div class="gallery-thumbs" id="gallery-thumbs">
+                  ${allImages.map((img, i) => `
+                    <img class="gallery-thumb ${i === 0 ? 'active' : ''}"
+                         src="${img}" alt="Photo ${i+1}"
+                         onclick="goToImage(${i})">
+                  `).join('')}
+                </div>
+              ` : ''}
+            </div>
+
+            <div class="info-sidebar">
+              <div class="info-card">
+                <h1 class="car-title">${car.year} ${car.make} ${car.model}</h1>
+                <div class="car-subtitle">
+                  ${[car.color, car.mileage ? car.mileage.toLocaleString() + ' miles' : '', car.drivetrain].filter(Boolean).join(' &bull; ')}
+                </div>
+                <div class="car-price-big">$${car.price.toLocaleString()}</div>
+                <div class="car-price-note">Est. $${est}/mo for 60 months</div>
+                <div class="cta-buttons">
+                  <a href="/contact?car=${encodeURIComponent(car.year + ' ' + car.make + ' ' + car.model)}" class="cta-btn cta-btn-primary">Schedule Test Drive</a>
+                  <a href="tel:" class="cta-btn cta-btn-secondary">Call About This Car</a>
+                  <a href="/contact?car=${encodeURIComponent(car.year + ' ' + car.make + ' ' + car.model)}" class="cta-btn cta-btn-outline">Ask a Question</a>
+                </div>
+              </div>
+
+              <div class="info-card">
+                <div class="quick-specs">
+                  <div class="quick-spec">
+                    <span class="quick-spec-icon">&#128336;</span>
+                    <div class="quick-spec-text">
+                      <strong>${car.mileage ? car.mileage.toLocaleString() : 'N/A'}</strong>
+                      Miles
+                    </div>
+                  </div>
+                  <div class="quick-spec">
+                    <span class="quick-spec-icon">&#9881;</span>
+                    <div class="quick-spec-text">
+                      <strong>${car.transmission || 'Automatic'}</strong>
+                      Transmission
+                    </div>
+                  </div>
+                  <div class="quick-spec">
+                    <span class="quick-spec-icon">&#9968;</span>
+                    <div class="quick-spec-text">
+                      <strong>${car.fuel_type || 'Gasoline'}</strong>
+                      Fuel Type
+                    </div>
+                  </div>
+                  <div class="quick-spec">
+                    <span class="quick-spec-icon">&#128663;</span>
+                    <div class="quick-spec-text">
+                      <strong>${car.drivetrain || 'FWD'}</strong>
+                      Drivetrain
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTTOM: DETAILS -->
+          <div class="detail-sections">
+            <div class="detail-main">
+              ${highlights.length > 0 ? `
+                <div class="section-card">
+                  <h2>Why You'll Love This Car</h2>
+                  <ul class="highlights-list">
+                    ${highlights.map(h => `
+                      <li>
+                        <span class="highlight-check">&#10003;</span>
+                        <span>${h.trim()}</span>
+                      </li>
+                    `).join('')}
+                  </ul>
+                </div>
+              ` : ''}
+
+              <div class="section-card">
+                <h2>Vehicle Details</h2>
+                <div class="specs-grid">
+                  <div class="spec-row"><span class="spec-label">Year</span><span class="spec-value">${car.year}</span></div>
+                  <div class="spec-row"><span class="spec-label">Make</span><span class="spec-value">${car.make}</span></div>
+                  <div class="spec-row"><span class="spec-label">Model</span><span class="spec-value">${car.model}</span></div>
+                  <div class="spec-row"><span class="spec-label">Price</span><span class="spec-value">$${car.price.toLocaleString()}</span></div>
+                  ${car.mileage ? `<div class="spec-row"><span class="spec-label">Mileage</span><span class="spec-value">${car.mileage.toLocaleString()} mi</span></div>` : ''}
+                  ${car.color ? `<div class="spec-row"><span class="spec-label">Exterior Color</span><span class="spec-value">${car.color}</span></div>` : ''}
+                  ${car.body_style ? `<div class="spec-row"><span class="spec-label">Body Style</span><span class="spec-value">${car.body_style}</span></div>` : ''}
+                  ${car.engine ? `<div class="spec-row"><span class="spec-label">Engine</span><span class="spec-value">${car.engine}</span></div>` : ''}
+                  ${car.transmission ? `<div class="spec-row"><span class="spec-label">Transmission</span><span class="spec-value">${car.transmission}</span></div>` : ''}
+                  ${car.drivetrain ? `<div class="spec-row"><span class="spec-label">Drivetrain</span><span class="spec-value">${car.drivetrain}</span></div>` : ''}
+                  ${car.fuel_type ? `<div class="spec-row"><span class="spec-label">Fuel Type</span><span class="spec-value">${car.fuel_type}</span></div>` : ''}
+                  ${car.vin ? `<div class="spec-row"><span class="spec-label">VIN</span><span class="spec-value">${car.vin}</span></div>` : ''}
+                </div>
+              </div>
+
+              ${car.description ? `
+                <div class="section-card">
+                  <h2>Description</h2>
+                  <div class="car-description">${car.description.replace(/\n/g, '<br>')}</div>
+                </div>
+              ` : ''}
+            </div>
+
+            <div>
+              <div class="info-card" style="position:sticky;top:80px;">
+                <h2 style="font-size:1.1rem;color:var(--primary);margin-bottom:12px;">Interested in this vehicle?</h2>
+                <p style="color:var(--gray);font-size:0.9rem;margin-bottom:16px;">Contact us today — this vehicle won't last long!</p>
+                <div class="cta-buttons">
+                  <a href="/contact?car=${encodeURIComponent(car.year + ' ' + car.make + ' ' + car.model)}" class="cta-btn cta-btn-primary">Contact Us</a>
+                  <a href="tel:" class="cta-btn cta-btn-secondary">Call Now</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SIMILAR CARS -->
+          <div class="similar-section" id="similar-section"></div>
+        </div>
+      `;
+    }
+
+    // Gallery navigation
+    function navGallery(dir) {
+      if (allImages.length === 0) return;
+      currentImage = (currentImage + dir + allImages.length) % allImages.length;
+      updateGallery();
+    }
+
+    function goToImage(idx) {
+      currentImage = idx;
+      updateGallery();
+    }
+
+    function updateGallery() {
+      const img = document.getElementById('main-img');
+      if (img) img.src = allImages[currentImage];
+      const counter = document.getElementById('gallery-counter');
+      if (counter) counter.textContent = `${currentImage + 1} / ${allImages.length}`;
+      document.querySelectorAll('.gallery-thumb').forEach((t, i) => {
+        t.classList.toggle('active', i === currentImage);
+      });
+    }
+
+    // Lightbox
+    function openLightbox() {
+      if (allImages.length === 0) return;
+      document.getElementById('lightbox-img').src = allImages[currentImage];
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function lightboxNav(dir) {
+      currentImage = (currentImage + dir + allImages.length) % allImages.length;
+      document.getElementById('lightbox-img').src = allImages[currentImage];
+      updateGallery();
+    }
+
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target.id === 'lightbox') closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (!document.getElementById('lightbox').classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') lightboxNav(-1);
+      if (e.key === 'ArrowRight') lightboxNav(1);
+    });
+
+    // Similar cars
+    async function loadSimilar() {
+      try {
+        const res = await fetch('/api/cars');
+        const cars = await res.json();
+        const similar = cars.filter(c => c.id !== car.id && (c.make === car.make || c.body_style === car.body_style)).slice(0, 4);
+        if (similar.length === 0) return;
+
+        const section = document.getElementById('similar-section');
+        if (!section) return;
+        section.innerHTML = `
+          <h2>Similar Vehicles</h2>
+          <div class="similar-grid">
+            ${similar.map(c => `
+              <a href="/car/${c.id}" class="similar-card">
+                ${c.image
+                  ? `<img class="similar-card-img" src="${c.image}" alt="${c.year} ${c.make} ${c.model}" loading="lazy">`
+                  : `<div class="similar-card-placeholder">&#128663;</div>`}
+                <div class="similar-card-info">
+                  <h3>${c.year} ${c.make} ${c.model}</h3>
+                  <div class="price">$${c.price.toLocaleString()}</div>
+                  <div class="meta">${c.mileage ? c.mileage.toLocaleString() + ' mi' : ''} ${c.color ? '&bull; ' + c.color : ''}</div>
+                </div>
+              </a>
+            `).join('')}
+          </div>
+        `;
+      } catch (e) {}
+    }
+
+    loadCar();
+  </script>
+</body>
+</html>
