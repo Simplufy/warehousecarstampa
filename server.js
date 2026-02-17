@@ -414,7 +414,7 @@ app.get('/browse', (req, res) => {
 
   renderPage(res, 'browse', {
     makes, models, bodyStyles, prices, guides, comparisons, areas, helpers,
-    pageTitle: 'Browse Used Cars by Make, Model, Price & More | Warehouse Cars Tampa',
+    pageTitle: 'Browse Used Cars by Make, Model, Price & More | Florida Autohaus',
     metaDescription: 'Browse our complete selection of used cars in Tampa by make, model, price range, body style, and more. Find buying guides, model comparisons, and nearby locations.',
     canonicalUrl: helpers.absoluteUrl('/browse'),
     schema: helpers.buildSchemaScripts([
@@ -793,8 +793,8 @@ app.get('/car/:slug', (req, res, next) => {
 
   renderPage(res, 'car-detail', {
     car, similarCars, helpers,
-    pageTitle: `${car.year} ${car.make} ${car.model} for Sale | Warehouse Cars Tampa`,
-    metaDescription: `${car.year} ${car.make} ${car.model} for sale at Warehouse Cars Tampa in Tampa, FL. ${car.mileage ? car.mileage.toLocaleString() + ' miles.' : ''} $${car.price.toLocaleString()}.`,
+    pageTitle: `${car.year} ${car.make} ${car.model} for Sale | Florida Autohaus`,
+    metaDescription: `${car.year} ${car.make} ${car.model} for sale at Florida Autohaus in Tampa, FL. ${car.mileage ? car.mileage.toLocaleString() + ' miles.' : ''} $${car.price.toLocaleString()}.`,
     canonicalUrl: helpers.absoluteUrl(helpers.carUrl(car)),
     ogType: 'product',
     ogImage: car.image ? helpers.absoluteUrl(car.image) : undefined,
@@ -818,8 +818,8 @@ app.get('/car/:slug', (req, res, next) => {
 app.get('/contact', (req, res) => {
   renderPage(res, 'contact', {
     helpers,
-    pageTitle: 'Contact Us | Warehouse Cars Tampa',
-    metaDescription: 'Contact Warehouse Cars Tampa about our quality used cars. Schedule a test drive, ask about financing, or request more info.',
+    pageTitle: 'Contact Us | Florida Autohaus',
+    metaDescription: 'Contact Florida Autohaus about our quality used cars. Schedule a test drive, ask about financing, or request more info.',
     canonicalUrl: helpers.absoluteUrl('/contact'),
     schema: helpers.buildSchemaScripts([
       helpers.buildAutoDealerSchema(),
@@ -841,12 +841,12 @@ function renderHomepage(res) {
 
   renderPage(res, 'home', {
     cars, makes, bodyStyles, stats, helpers,
-    pageTitle: 'Warehouse Cars Tampa | Quality Used Cars in Tampa, FL',
-    metaDescription: `Warehouse Cars Tampa offers ${stats.total_count} quality used Toyotas, Hondas, Nissans, Chevys and more at affordable prices in Tampa, Florida. Browse our inventory today!`,
+    pageTitle: 'Florida Autohaus | Quality Used Cars in Tampa, FL',
+    metaDescription: `Florida Autohaus offers ${stats.total_count} quality used Toyotas, Hondas, Nissans, Chevys and more at affordable prices in Tampa, Florida. Browse our inventory today!`,
     canonicalUrl: helpers.absoluteUrl('/'),
     schema: helpers.buildSchemaScripts([
       helpers.buildAutoDealerSchema(),
-      helpers.buildItemListSchema(cars.filter(c => c.featured).slice(0, 8), 'Featured Vehicles at Warehouse Cars Tampa', '/')
+      helpers.buildItemListSchema(cars.filter(c => c.featured).slice(0, 8), 'Featured Vehicles at Florida Autohaus', '/')
     ]),
     crumbs: []
   });
@@ -858,7 +858,7 @@ app.use((req, res) => {
   res.status(404);
   renderPage(res, '404', {
     helpers,
-    pageTitle: 'Page Not Found | Warehouse Cars Tampa',
+    pageTitle: 'Page Not Found | Florida Autohaus',
     metaDescription: 'The page you are looking for could not be found. Browse our inventory of quality used cars in Tampa, FL.',
     canonicalUrl: helpers.absoluteUrl('/'),
     robots: 'noindex, follow',
@@ -869,6 +869,6 @@ app.use((req, res) => {
 // ============ START SERVER ============
 
 app.listen(PORT, () => {
-  console.log(`Warehouse Cars Tampa running at http://localhost:${PORT}`);
+  console.log(`Florida Autohaus running at http://localhost:${PORT}`);
   console.log(`Admin panel: http://localhost:${PORT}/admin`);
 });

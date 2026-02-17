@@ -1,7 +1,7 @@
 {
-  "name": "warehousecarstampa",
+  "name": "floridaautohaus",
   "version": "1.0.0",
-  "description": "Warehouse Cars Tampa - Quality Used Cars in Tampa, FL",
+  "description": "Florida Autohaus - Quality Used Cars in Tampa, FL",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

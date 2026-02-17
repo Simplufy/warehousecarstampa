@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loading... | Warehouse Cars Tampa</title>
-  <meta name="description" content="View details on this quality used car for sale at Warehouse Cars Tampa in Tampa, FL.">
+  <title>Loading... | Florida Autohaus</title>
+  <meta name="description" content="View details on this quality used car for sale at Florida Autohaus in Tampa, FL.">
   <meta name="robots" content="index, follow">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -557,7 +557,7 @@
 
   <header>
     <div class="header-inner">
-      <a href="/" class="logo">WAREHOUSE <span>CARS</span></a>
+      <a href="/" class="logo">FLORIDA <span>AUTOHAUS</span></a>
       <nav>
         <a href="/#inventory">Inventory</a>
         <a href="/#why-us">Why Us</a>
@@ -582,7 +582,7 @@
   </div>
 
   <footer>
-    <p>&copy; 2026 <strong>Warehouse Cars Tampa</strong> &mdash; Quality Used Cars in Tampa, FL</p>
+    <p>&copy; 2026 <strong>Florida Autohaus</strong> &mdash; Quality Used Cars in Tampa, FL</p>
   </footer>
 
   <script>
@@ -598,9 +598,9 @@
         car = await res.json();
         allImages = car.images && car.images.length > 0 ? car.images : (car.image ? [car.image] : []);
 
-        document.title = `${car.year} ${car.make} ${car.model} | Warehouse Cars Tampa`;
+        document.title = `${car.year} ${car.make} ${car.model} | Florida Autohaus`;
         const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.content = `${car.year} ${car.make} ${car.model} for sale at Warehouse Cars Tampa in Tampa, FL. ${car.mileage ? car.mileage.toLocaleString() + ' miles.' : ''} $${car.price.toLocaleString()}.`;
+        if (metaDesc) metaDesc.content = `${car.year} ${car.make} ${car.model} for sale at Florida Autohaus in Tampa, FL. ${car.mileage ? car.mileage.toLocaleString() + ' miles.' : ''} $${car.price.toLocaleString()}.`;
 
         renderCar();
         loadSimilar();
