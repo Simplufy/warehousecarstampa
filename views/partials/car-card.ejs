@@ -1,0 +1,16 @@
+<a href="<%= helpers.carUrl(car) %>" class="car-card">
+  <% if (car.image) { %>
+    <img class="car-img" src="<%= car.image %>" alt="<%= car.year %> <%= car.make %> <%= car.model %> for sale in Tampa" loading="lazy">
+  <% } else { %>
+    <div class="car-img-placeholder">&#128663;</div>
+  <% } %>
+  <div class="car-info">
+    <% if (car.featured) { %><span class="featured-badge">Featured</span><% } %>
+    <h3><%= car.year %> <%= car.make %> <%= car.model %></h3>
+    <div class="car-meta">
+      <% if (car.mileage) { %><span><%= car.mileage.toLocaleString() %> mi</span><% } %>
+      <% if (car.color) { %><span><%= car.color %></span><% } %>
+    </div>
+    <div class="car-price">$<%= car.price.toLocaleString() %></div>
+  </div>
+</a>

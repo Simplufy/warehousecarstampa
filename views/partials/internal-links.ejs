@@ -1,0 +1,51 @@
+<div class="internal-links-section">
+  <h2>Browse More</h2>
+  <% if (typeof relatedMakes !== 'undefined' && relatedMakes && relatedMakes.length) { %>
+    <div class="link-group">
+      <h3>Shop by Make</h3>
+      <ul>
+        <% relatedMakes.slice(0, 8).forEach(m => { %>
+          <li><a href="<%= helpers.makeUrl(m.make || m) %>">Used <%= m.make || m %> in Tampa</a></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+  <% if (typeof relatedBodyStyles !== 'undefined' && relatedBodyStyles && relatedBodyStyles.length) { %>
+    <div class="link-group">
+      <h3>Shop by Type</h3>
+      <ul>
+        <% relatedBodyStyles.slice(0, 6).forEach(bs => { %>
+          <li><a href="<%= helpers.bodyStyleUrl(bs.body_style || bs) %>">Used <%= (bs.body_style || bs) %>s in Tampa</a></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+  <% if (typeof priceRanges !== 'undefined' && priceRanges && priceRanges.length) { %>
+    <div class="link-group">
+      <h3>Shop by Budget</h3>
+      <ul>
+        <% priceRanges.forEach(p => { %>
+          <li><a href="<%= helpers.priceRangeUrl(p) %>">Under $<%= p.toLocaleString() %></a></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+  <% if (typeof relatedGuides !== 'undefined' && relatedGuides && relatedGuides.length) { %>
+    <div class="link-group">
+      <h3>Buyer Guides</h3>
+      <ul>
+        <% relatedGuides.forEach(g => { %>
+          <li><a href="<%= helpers.guideUrl(g.slug) %>"><%= g.name %></a></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+  <div class="link-group">
+    <h3>Services</h3>
+    <ul>
+      <li><a href="/financing">Financing Options</a></li>
+      <li><a href="/trade-in">Trade-In Your Car</a></li>
+      <li><a href="/contact">Contact Us</a></li>
+    </ul>
+  </div>
+</div>

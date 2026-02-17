@@ -1,0 +1,44 @@
+<%- include('../partials/breadcrumb', { crumbs }) %>
+
+<section class="seo-hero">
+  <h1><%= content.h1 %></h1>
+</section>
+
+<div class="content-page">
+  <table class="compare-table">
+    <thead>
+      <tr><th>Feature</th><th><%= content.car1.make %> <%= content.car1.model %></th><th><%= content.car2.make %> <%= content.car2.model %></th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Class</td><td><%= content.car1.class %></td><td><%= content.car2.class %></td></tr>
+      <tr><td>Fuel Economy</td><td><%= content.car1.mpg %></td><td><%= content.car2.mpg %></td></tr>
+      <tr><td>Cargo Space</td><td><%= content.car1.cargo %></td><td><%= content.car2.cargo %></td></tr>
+      <tr><td>Reliability</td><td><%= content.car1.reliability %></td><td><%= content.car2.reliability %></td></tr>
+      <tr><td>Insurance Cost</td><td><%= content.car1.insurance %></td><td><%= content.car2.insurance %></td></tr>
+      <tr><td>Key Strengths</td><td><%= content.car1.strengths %></td><td><%= content.car2.strengths %></td></tr>
+      <tr><td>Best For</td><td><%= content.car1.bestFor %></td><td><%= content.car2.bestFor %></td></tr>
+    </tbody>
+  </table>
+
+  <div class="verdict-box">
+    <h3>Our Verdict</h3>
+    <p><%= content.verdict %></p>
+  </div>
+
+  <% if (typeof matchingCars !== 'undefined' && matchingCars.length > 0) { %>
+    <h2 style="font-size:1.5rem;font-weight:800;color:var(--primary);margin:40px 0 20px;">Shop These Models</h2>
+    <div class="car-grid">
+      <% matchingCars.slice(0, 4).forEach(car => { %>
+        <%- include('../partials/car-card', { car, helpers }) %>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <%- include('../partials/faq-section', { faqs: content.faqs }) %>
+</div>
+
+<section class="cta">
+  <h2>See These Vehicles In Person</h2>
+  <p>Nothing beats a test drive. Visit Warehouse Cars Tampa to see both options up close.</p>
+  <a href="/contact" class="hero-btn">Schedule a Test Drive</a>
+</section>

@@ -1,0 +1,147 @@
+<%- include('../partials/breadcrumb', { crumbs }) %>
+
+<div class="detail-page">
+  <div class="detail-top">
+    <div class="gallery">
+      <div class="gallery-main" id="gallery-main" onclick="openLightbox()">
+        <% if (car.images && car.images.length > 0) { %>
+          <img id="main-img" src="<%= car.images[0] %>" alt="<%= car.year %> <%= car.make %> <%= car.model %> for sale in Tampa">
+          <button class="gallery-nav gallery-prev" onclick="event.stopPropagation();navGallery(-1)">&#8249;</button>
+          <button class="gallery-nav gallery-next" onclick="event.stopPropagation();navGallery(1)">&#8250;</button>
+          <div class="gallery-counter" id="gallery-counter">1 / <%= car.images.length %></div>
+        <% } else if (car.image) { %>
+          <img id="main-img" src="<%= car.image %>" alt="<%= car.year %> <%= car.make %> <%= car.model %>">
+        <% } else { %>
+          <div class="gallery-main-placeholder">&#128663;</div>
+        <% } %>
+      </div>
+      <% if (car.images && car.images.length > 1) { %>
+        <div class="gallery-thumbs">
+          <% car.images.forEach((img, i) => { %>
+            <img class="gallery-thumb <%= i === 0 ? 'active' : '' %>" src="<%= img %>" alt="Photo <%= i+1 %>" onclick="goToImage(<%= i %>)">
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="info-sidebar">
+      <div class="info-card">
+        <h1 class="car-title"><%= car.year %> <%= car.make %> <%= car.model %></h1>
+        <div class="car-subtitle">
+          <%= [car.color, car.mileage ? car.mileage.toLocaleString() + ' miles' : '', car.drivetrain].filter(Boolean).join(' &bull; ') %>
+        </div>
+        <div class="car-price-big">$<%= car.price.toLocaleString() %></div>
+        <div class="car-price-note">Est. $<%= Math.round(car.price / 60) %>/mo for 60 months</div>
+        <div class="cta-buttons">
+          <a href="/contact?car=<%= encodeURIComponent(car.year + ' ' + car.make + ' ' + car.model) %>" class="cta-btn cta-btn-primary">Schedule Test Drive</a>
+          <a href="tel:" class="cta-btn cta-btn-secondary">Call About This Car</a>
+          <a href="/contact?car=<%= encodeURIComponent(car.year + ' ' + car.make + ' ' + car.model) %>" class="cta-btn cta-btn-outline">Ask a Question</a>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="quick-specs">
+          <div class="quick-spec"><span class="quick-spec-icon">&#128336;</span><div class="quick-spec-text"><strong><%= car.mileage ? car.mileage.toLocaleString() : 'N/A' %></strong>Miles</div></div>
+          <div class="quick-spec"><span class="quick-spec-icon">&#9881;</span><div class="quick-spec-text"><strong><%= car.transmission || 'Automatic' %></strong>Transmission</div></div>
+          <div class="quick-spec"><span class="quick-spec-icon">&#9968;</span><div class="quick-spec-text"><strong><%= car.fuel_type || 'Gasoline' %></strong>Fuel Type</div></div>
+          <div class="quick-spec"><span class="quick-spec-icon">&#128663;</span><div class="quick-spec-text"><strong><%= car.drivetrain || 'FWD' %></strong>Drivetrain</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-sections">
+    <div class="detail-main">
+      <% if (car.highlights) { var highlights = car.highlights.split('\\n').filter(h => h.trim()); if (highlights.length) { %>
+        <div class="section-card">
+          <h2>Why You'll Love This Car</h2>
+          <ul class="highlights-list">
+            <% highlights.forEach(h => { %>
+              <li><span class="highlight-check">&#10003;</span><span><%= h.trim() %></span></li>
+            <% }) %>
+          </ul>
+        </div>
+      <% } } %>
+
+      <div class="section-card">
+        <h2>Vehicle Details</h2>
+        <div class="specs-grid">
+          <div class="spec-row"><span class="spec-label">Year</span><span class="spec-value"><%= car.year %></span></div>
+          <div class="spec-row"><span class="spec-label">Make</span><span class="spec-value"><%= car.make %></span></div>
+          <div class="spec-row"><span class="spec-label">Model</span><span class="spec-value"><%= car.model %></span></div>
+          <div class="spec-row"><span class="spec-label">Price</span><span class="spec-value">$<%= car.price.toLocaleString() %></span></div>
+          <% if (car.mileage) { %><div class="spec-row"><span class="spec-label">Mileage</span><span class="spec-value"><%= car.mileage.toLocaleString() %> mi</span></div><% } %>
+          <% if (car.color) { %><div class="spec-row"><span class="spec-label">Exterior Color</span><span class="spec-value"><%= car.color %></span></div><% } %>
+          <% if (car.body_style) { %><div class="spec-row"><span class="spec-label">Body Style</span><span class="spec-value"><%= car.body_style %></span></div><% } %>
+          <% if (car.engine) { %><div class="spec-row"><span class="spec-label">Engine</span><span class="spec-value"><%= car.engine %></span></div><% } %>
+          <% if (car.transmission) { %><div class="spec-row"><span class="spec-label">Transmission</span><span class="spec-value"><%= car.transmission %></span></div><% } %>
+          <% if (car.drivetrain) { %><div class="spec-row"><span class="spec-label">Drivetrain</span><span class="spec-value"><%= car.drivetrain %></span></div><% } %>
+          <% if (car.fuel_type) { %><div class="spec-row"><span class="spec-label">Fuel Type</span><span class="spec-value"><%= car.fuel_type %></span></div><% } %>
+          <% if (car.vin) { %><div class="spec-row"><span class="spec-label">VIN</span><span class="spec-value"><%= car.vin %></span></div><% } %>
+        </div>
+      </div>
+
+      <% if (car.description) { %>
+        <div class="section-card">
+          <h2>Description</h2>
+          <div class="car-description"><%- car.description.replace(/\n/g, '<br>') %></div>
+        </div>
+      <% } %>
+    </div>
+    <div>
+      <div class="info-card" style="position:sticky;top:80px;">
+        <h2 style="font-size:1.1rem;color:var(--primary);margin-bottom:12px;">Interested in this vehicle?</h2>
+        <p style="color:var(--gray);font-size:0.9rem;margin-bottom:16px;">Contact us today — this vehicle won't last long!</p>
+        <div class="cta-buttons">
+          <a href="/contact?car=<%= encodeURIComponent(car.year + ' ' + car.make + ' ' + car.model) %>" class="cta-btn cta-btn-primary">Contact Us</a>
+          <a href="tel:" class="cta-btn cta-btn-secondary">Call Now</a>
+        </div>
+        <div style="margin-top:20px;">
+          <h3 style="font-size:0.9rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Related</h3>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;">
+            <li><a href="<%= helpers.makeUrl(car.make) %>" style="font-size:0.9rem;">More Used <%= car.make %></a></li>
+            <% if (car.body_style) { %><li><a href="<%= helpers.bodyStyleUrl(car.body_style) %>" style="font-size:0.9rem;">Used <%= car.body_style %>s</a></li><% } %>
+            <li><a href="/financing" style="font-size:0.9rem;">Financing Options</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if (typeof similarCars !== 'undefined' && similarCars.length > 0) { %>
+    <div class="similar-section">
+      <h2>Similar Vehicles</h2>
+      <div class="similar-grid">
+        <% similarCars.forEach(c => { %>
+          <a href="<%= helpers.carUrl(c) %>" class="similar-card">
+            <% if (c.image) { %><img class="similar-card-img" src="<%= c.image %>" alt="<%= c.year %> <%= c.make %> <%= c.model %>" loading="lazy"><% } else { %><div class="similar-card-placeholder">&#128663;</div><% } %>
+            <div class="similar-card-info">
+              <h3><%= c.year %> <%= c.make %> <%= c.model %></h3>
+              <div class="price">$<%= c.price.toLocaleString() %></div>
+              <div class="meta"><%= c.mileage ? c.mileage.toLocaleString() + ' mi' : '' %><%= c.color ? ' &bull; ' + c.color : '' %></div>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+  <% } %>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)">&#8249;</button>
+  <img id="lightbox-img" src="" alt="Vehicle photo">
+  <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)">&#8250;</button>
+</div>
+
+<script>
+  var allImages = <%- JSON.stringify(car.images && car.images.length ? car.images : (car.image ? [car.image] : [])) %>;
+  var currentImage = 0;
+  function navGallery(dir) { if (!allImages.length) return; currentImage = (currentImage + dir + allImages.length) % allImages.length; updateGallery(); }
+  function goToImage(idx) { currentImage = idx; updateGallery(); }
+  function updateGallery() { var img = document.getElementById('main-img'); if (img) img.src = allImages[currentImage]; var counter = document.getElementById('gallery-counter'); if (counter) counter.textContent = (currentImage+1) + ' / ' + allImages.length; document.querySelectorAll('.gallery-thumb').forEach(function(t,i) { t.classList.toggle('active', i === currentImage); }); }
+  function openLightbox() { if (!allImages.length) return; document.getElementById('lightbox-img').src = allImages[currentImage]; document.getElementById('lightbox').classList.add('active'); document.body.style.overflow = 'hidden'; }
+  function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); document.body.style.overflow = ''; }
+  function lightboxNav(dir) { currentImage = (currentImage + dir + allImages.length) % allImages.length; document.getElementById('lightbox-img').src = allImages[currentImage]; updateGallery(); }
+  document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target.id === 'lightbox') closeLightbox(); });
+  document.addEventListener('keydown', function(e) { if (!document.getElementById('lightbox').classList.contains('active')) return; if (e.key === 'Escape') closeLightbox(); if (e.key === 'ArrowLeft') lightboxNav(-1); if (e.key === 'ArrowRight') lightboxNav(1); });
+</script>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= pageTitle %></title>
+  <meta name="description" content="<%= metaDescription %>">
+  <meta name="robots" content="<%= typeof robots !== 'undefined' ? robots : 'index, follow' %>">
+  <link rel="canonical" href="<%= canonicalUrl %>">
+  <meta property="og:title" content="<%= typeof ogTitle !== 'undefined' ? ogTitle : pageTitle %>">
+  <meta property="og:description" content="<%= typeof ogDescription !== 'undefined' ? ogDescription : metaDescription %>">
+  <meta property="og:type" content="<%= typeof ogType !== 'undefined' ? ogType : 'website' %>">
+  <meta property="og:url" content="<%= canonicalUrl %>">
+  <meta property="og:site_name" content="Warehouse Cars Tampa">
+  <link rel="stylesheet" href="/css/styles.css">
+  <%- typeof schema !== 'undefined' ? schema : '' %>
+</head>
+<body>
+  <%- include('../partials/header') %>
+  <%- body %>
+  <%- include('../partials/footer') %>
+</body>
+</html>

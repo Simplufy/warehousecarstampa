@@ -1,0 +1,55 @@
+<%- include('../partials/breadcrumb', { crumbs }) %>
+
+<section class="seo-hero">
+  <h1><%= content.h1 %></h1>
+  <p><%= cars.length %> vehicle<%= cars.length !== 1 ? 's' : '' %> available<%= cars.length > 0 && stats && stats.min_price ? ' | Starting at $' + stats.min_price.toLocaleString() : '' %></p>
+</section>
+
+<div class="seo-page-layout">
+  <main class="seo-main">
+    <div class="seo-content-block">
+      <%- content.introText %>
+    </div>
+
+    <% if (typeof content.highlights !== 'undefined' && content.highlights && content.highlights.length) { %>
+      <ul class="highlights-list">
+        <% content.highlights.forEach(h => { %>
+          <li><span class="highlight-check">&#10003;</span><span><%= h %></span></li>
+        <% }) %>
+      </ul>
+    <% } %>
+
+    <% if (typeof content.benefits !== 'undefined' && content.benefits && content.benefits.length) { %>
+      <ul class="benefits-list">
+        <% content.benefits.forEach(b => { %>
+          <li><span class="benefit-check">&#10003;</span><span><%= b %></span></li>
+        <% }) %>
+      </ul>
+    <% } %>
+
+    <h2>Our Inventory</h2>
+    <div class="car-grid">
+      <% if (cars.length === 0) { %>
+        <div class="no-cars">
+          <h3>No vehicles currently match this criteria</h3>
+          <p>Our inventory changes daily! <a href="/contact">Contact us</a> and we'll help you find what you're looking for.</p>
+        </div>
+      <% } else { %>
+        <% cars.forEach(car => { %>
+          <%- include('../partials/car-card', { car, helpers }) %>
+        <% }) %>
+      <% } %>
+    </div>
+
+    <%- include('../partials/faq-section', { faqs: content.faqs }) %>
+  </main>
+
+  <aside>
+    <%- include('../partials/internal-links', { helpers, relatedMakes: typeof relatedMakes !== 'undefined' ? relatedMakes : [], relatedBodyStyles: typeof relatedBodyStyles !== 'undefined' ? relatedBodyStyles : [], priceRanges: typeof priceRanges !== 'undefined' ? priceRanges : [15000, 20000, 25000, 30000], relatedGuides: typeof relatedGuides !== 'undefined' ? relatedGuides : [] }) %>
+    <div class="sidebar-cta-card">
+      <h3>Can't find what you need?</h3>
+      <p>Contact us — we can help find the right vehicle for you.</p>
+      <a href="/contact" class="cta-btn cta-btn-primary">Contact Us</a>
+    </div>
+  </aside>
+</div>

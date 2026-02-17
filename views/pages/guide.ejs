@@ -1,0 +1,29 @@
+<%- include('../partials/breadcrumb', { crumbs }) %>
+
+<section class="seo-hero">
+  <h1><%= content.h1 %></h1>
+</section>
+
+<div class="content-page">
+  <div class="seo-content-block">
+    <%- content.content %>
+  </div>
+
+  <% if (typeof matchingCars !== 'undefined' && matchingCars.length > 0) { %>
+    <h2 style="font-size:1.5rem;font-weight:800;color:var(--primary);margin:40px 0 20px;">Browse Our Inventory</h2>
+    <div class="car-grid">
+      <% matchingCars.slice(0, 6).forEach(car => { %>
+        <%- include('../partials/car-card', { car, helpers }) %>
+      <% }) %>
+    </div>
+  <% } %>
+
+  <%- include('../partials/faq-section', { faqs: content.faqs }) %>
+</div>
+
+<section class="cta">
+  <h2>Find Your Perfect Car at Warehouse Cars Tampa</h2>
+  <p>Browse our full inventory or contact us for personalized recommendations.</p>
+  <a href="/inventory" class="hero-btn">Browse Inventory</a>
+  <a href="/contact" class="hero-btn" style="margin-left:12px;background:white;color:var(--primary);">Contact Us</a>
+</section>

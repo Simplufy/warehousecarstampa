@@ -1,0 +1,85 @@
+<%- include('../partials/breadcrumb', { crumbs: [] }) %>
+
+<section class="hero">
+  <h1>Quality Used Cars in <span>Tampa, FL</span></h1>
+  <p>Affordable Toyotas, Hondas, Nissans, Chevys, and more. No pressure, no hassle — just great cars at great prices.</p>
+  <a href="#inventory" class="hero-btn">Browse Inventory</a>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-item"><strong><%= cars.length %></strong> Cars in Stock</div>
+  <div class="trust-item"><strong>Tampa, FL</strong> Local Dealership</div>
+  <div class="trust-item"><strong>Quality</strong> Inspected Vehicles</div>
+  <div class="trust-item"><strong>Easy</strong> Financing Options</div>
+</div>
+
+<section class="section" id="inventory">
+  <h2 class="section-title">Our Inventory</h2>
+  <p class="section-subtitle">Browse our selection of quality pre-owned vehicles</p>
+  <div class="filters">
+    <button class="filter-btn active" onclick="setFilter('All')">All</button>
+    <% makes.forEach(m => { %>
+      <button class="filter-btn" onclick="setFilter('<%= m.make %>')"><%= m.make %></button>
+    <% }) %>
+  </div>
+  <div class="car-grid" id="car-grid">
+    <% if (cars.length === 0) { %>
+      <div class="no-cars"><h3>Check back soon for inventory!</h3><p>We're updating our selection.</p></div>
+    <% } else { %>
+      <% cars.forEach(car => { %>
+        <%- include('../partials/car-card', { car, helpers }) %>
+      <% }) %>
+    <% } %>
+  </div>
+</section>
+
+<section class="why-us" id="why-us">
+  <h2 class="section-title" style="padding-top:60px;">Why Warehouse Cars Tampa?</h2>
+  <p class="section-subtitle">We make buying a used car simple and stress-free</p>
+  <div class="features">
+    <div class="feature"><div class="feature-icon">&#128663;</div><h3>Quality Vehicles</h3><p>Every car is inspected to meet our quality standards before it hits the lot.</p></div>
+    <div class="feature"><div class="feature-icon">&#128176;</div><h3>Fair Prices</h3><p>Competitive pricing with no hidden fees. What you see is what you pay.</p></div>
+    <div class="feature"><div class="feature-icon">&#129309;</div><h3>No Pressure</h3><p>Take your time, ask questions, and drive away happy. No pushy salespeople.</p></div>
+    <div class="feature"><div class="feature-icon">&#128206;</div><h3>Easy Financing</h3><p>We work with multiple lenders to find the right payment plan for you.</p></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">Browse by Make</h2>
+  <p class="section-subtitle">Find the brand you're looking for</p>
+  <div class="car-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
+    <% makes.forEach(m => { %>
+      <a href="<%= helpers.makeUrl(m.make) %>" class="car-card" style="text-align:center;padding:24px;">
+        <h3 style="margin:0;"><%= m.make %></h3>
+        <p style="color:var(--gray);font-size:0.9rem;margin-top:4px;">Shop Used <%= m.make %></p>
+      </a>
+    <% }) %>
+    <% bodyStyles.forEach(bs => { %>
+      <a href="<%= helpers.bodyStyleUrl(bs.body_style) %>" class="car-card" style="text-align:center;padding:24px;">
+        <h3 style="margin:0;"><%= bs.body_style %>s</h3>
+        <p style="color:var(--gray);font-size:0.9rem;margin-top:4px;">Shop Used <%= bs.body_style %>s</p>
+      </a>
+    <% }) %>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Ready to Find Your Next Car?</h2>
+  <p>Visit us in Tampa or give us a call. We're here to help!</p>
+  <a href="/contact" class="hero-btn">Contact Us</a>
+  <a href="tel:" class="hero-btn" style="margin-left:12px;background:white;color:var(--primary);">Call Us</a>
+</section>
+
+<script>
+  const allCards = document.querySelectorAll('#car-grid .car-card');
+  function setFilter(make) {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent === make);
+    });
+    allCards.forEach(card => {
+      if (make === 'All') { card.style.display = ''; return; }
+      const title = card.querySelector('h3')?.textContent || '';
+      card.style.display = title.includes(make) ? '' : 'none';
+    });
+  }
+</script>
