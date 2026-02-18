@@ -16,7 +16,19 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // ============ DATABASE SETUP ============
-const db = new Database('inventory.db');
+const IS_VERCEL = !!process.env.VERCEL;
+let dbPath = path.join(__dirname, 'inventory.db');
+
+if (IS_VERCEL) {
+  const tmpDb = '/tmp/inventory.db';
+  const srcDb = path.join(__dirname, 'inventory.db');
+  if (!fs.existsSync(tmpDb) && fs.existsSync(srcDb)) {
+    fs.copyFileSync(srcDb, tmpDb);
+  }
+  dbPath = tmpDb;
+}
+
+const db = new Database(dbPath);
 db.pragma('journal_mode = WAL');
 
 db.exec(`
@@ -82,12 +94,17 @@ const queries = require('./lib/db-queries')(db);
 // ============ MIDDLEWARE ============
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
-app.use('/uploads', express.static('uploads'));
+app.use(express.static(path.join(__dirname, 'public')));
+
+const uploadsDir = IS_VERCEL ? '/tmp/uploads' : path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+app.use('/uploads', express.static(uploadsDir));
+// Also serve bundled uploads from the project directory (for pre-deployed images)
+if (IS_VERCEL) app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Image upload config
 const storage = multer.diskStorage({
-  destination: 'uploads/',
+  destination: uploadsDir,
   filename: (req, file, cb) => {
     const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e9) + path.extname(file.originalname);
     cb(null, uniqueName);
@@ -868,7 +885,11 @@ app.use((req, res) => {
 
 // ============ START SERVER ============
 
-app.listen(PORT, () => {
-  console.log(`Florida Autohaus running at http://localhost:${PORT}`);
-  console.log(`Admin panel: http://localhost:${PORT}/admin`);
-});
+if (!IS_VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`Florida Autohaus running at http://localhost:${PORT}`);
+    console.log(`Admin panel: http://localhost:${PORT}/admin`);
+  });
+}
+
+module.exports = app;
