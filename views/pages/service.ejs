@@ -1,7 +1,14 @@
 <%- include('../partials/breadcrumb', { crumbs }) %>
 
-<section class="seo-hero">
-  <h1><%= content.h1 %></h1>
+<section class="hero" style="padding:56px 32px 72px;">
+  <div class="hero-content">
+    <h1><%= content.h1 %></h1>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,60 L0,20 Q360,60 720,20 Q1080,-20 1440,20 L1440,60Z" fill="var(--light)"/>
+    </svg>
+  </div>
 </section>
 
 <div class="content-page">
@@ -15,6 +22,8 @@
 <section class="cta">
   <h2>Ready to Get Started?</h2>
   <p>Contact Tampa Autohaus today. We're here to help!</p>
-  <a href="/contact" class="hero-btn">Contact Us</a>
-  <a href="/inventory" class="hero-btn" style="margin-left:12px;background:white;color:var(--primary);">Browse Inventory</a>
+  <div class="hero-actions" style="justify-content:center;">
+    <a href="/contact" class="btn-primary">Contact Us</a>
+    <a href="/inventory" class="btn-outline" style="background:transparent;color:white;border-color:rgba(255,255,255,0.3);">Browse Inventory</a>
+  </div>
 </section>

@@ -26,6 +26,7 @@
 
     <div class="info-sidebar">
       <div class="info-card">
+        <% if (car.featured) { %><span class="featured-badge">Featured</span><% } %>
         <h1 class="car-title"><%= car.year %> <%= car.make %> <%= car.model %></h1>
         <div class="car-subtitle">
           <%= [car.color, car.mileage ? car.mileage.toLocaleString() + ' miles' : '', car.drivetrain].filter(Boolean).join(' &bull; ') %>
@@ -88,19 +89,19 @@
       <% } %>
     </div>
     <div>
-      <div class="info-card" style="position:sticky;top:80px;">
-        <h2 style="font-size:1.1rem;color:var(--primary);margin-bottom:12px;">Interested in this vehicle?</h2>
-        <p style="color:var(--gray);font-size:0.9rem;margin-bottom:16px;">Contact us today — this vehicle won't last long!</p>
+      <div class="info-card" style="position:sticky;top:88px;">
+        <h3 style="font-family:var(--font-heading);font-size:1.1rem;color:var(--primary);margin-bottom:12px;">Interested?</h3>
+        <p style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:16px;">Contact us today — this vehicle won't last long!</p>
         <div class="cta-buttons">
           <a href="/contact?car=<%= encodeURIComponent(car.year + ' ' + car.make + ' ' + car.model) %>" class="cta-btn cta-btn-primary">Contact Us</a>
           <a href="tel:" class="cta-btn cta-btn-secondary">Call Now</a>
         </div>
-        <div style="margin-top:20px;">
-          <h3 style="font-size:0.9rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Related</h3>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:6px;">
-            <li><a href="<%= helpers.makeUrl(car.make) %>" style="font-size:0.9rem;">More Used <%= car.make %></a></li>
-            <% if (car.body_style) { %><li><a href="<%= helpers.bodyStyleUrl(car.body_style) %>" style="font-size:0.9rem;">Used <%= car.body_style %>s</a></li><% } %>
-            <li><a href="/financing" style="font-size:0.9rem;">Financing Options</a></li>
+        <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border);">
+          <h4 style="font-family:var(--font-heading);font-size:0.78rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Related</h4>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;">
+            <li><a href="<%= helpers.makeUrl(car.make) %>" style="font-size:0.9rem;font-weight:500;">More Used <%= car.make %></a></li>
+            <% if (car.body_style) { %><li><a href="<%= helpers.bodyStyleUrl(car.body_style) %>" style="font-size:0.9rem;font-weight:500;">Used <%= car.body_style %>s</a></li><% } %>
+            <li><a href="/financing" style="font-size:0.9rem;font-weight:500;">Financing Options</a></li>
           </ul>
         </div>
       </div>

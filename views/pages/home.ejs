@@ -1,21 +1,48 @@
 <%- include('../partials/breadcrumb', { crumbs: [] }) %>
 
 <section class="hero">
-  <h1>Quality Used Cars in <span>Tampa, FL</span></h1>
-  <p>Affordable Toyotas, Hondas, Nissans, Chevys, and more. No pressure, no hassle — just great cars at great prices.</p>
-  <a href="#inventory" class="hero-btn">Browse Inventory</a>
+  <div class="hero-content">
+    <span class="hero-eyebrow">Tampa's Trusted Dealership</span>
+    <h1>Find Your Next Car at <span>Tampa Autohaus</span></h1>
+    <p>Affordable Toyotas, Hondas, Nissans, Chevys, and more. No pressure, no hassle — just great cars at great prices.</p>
+    <div class="hero-actions">
+      <a href="#inventory" class="btn-primary">Browse Inventory</a>
+      <a href="/contact" class="btn-secondary">Schedule a Visit</a>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
+      <path d="M0,60 L0,20 Q360,60 720,20 Q1080,-20 1440,20 L1440,60Z" fill="var(--light)"/>
+    </svg>
+  </div>
 </section>
 
 <div class="trust-bar">
-  <div class="trust-item"><strong><%= cars.length %></strong> Cars in Stock</div>
-  <div class="trust-item"><strong>Tampa, FL</strong> Local Dealership</div>
-  <div class="trust-item"><strong>Quality</strong> Inspected Vehicles</div>
-  <div class="trust-item"><strong>Easy</strong> Financing Options</div>
+  <div class="trust-bar-inner">
+    <div class="trust-item">
+      <div class="trust-icon">&#128663;</div>
+      <div class="trust-text"><strong><%= cars.length %>+ Vehicles</strong><span>In stock & ready to go</span></div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">&#128205;</div>
+      <div class="trust-text"><strong>Tampa, FL</strong><span>Locally owned & operated</span></div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">&#9989;</div>
+      <div class="trust-text"><strong>Quality Inspected</strong><span>Every vehicle checked</span></div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">&#128176;</div>
+      <div class="trust-text"><strong>Easy Financing</strong><span>All credit situations</span></div>
+    </div>
+  </div>
 </div>
 
-<section class="section" id="inventory">
-  <h2 class="section-title">Our Inventory</h2>
-  <p class="section-subtitle">Browse our selection of quality pre-owned vehicles</p>
+<div class="section" id="inventory">
+  <div class="section-header">
+    <h2>Our Inventory</h2>
+    <p>Browse our selection of quality pre-owned vehicles</p>
+  </div>
   <div class="filters">
     <button class="filter-btn active" onclick="setFilter('All')">All</button>
     <% makes.forEach(m => { %>
@@ -31,43 +58,67 @@
       <% }) %>
     <% } %>
   </div>
-</section>
+</div>
 
-<section class="why-us" id="why-us">
-  <h2 class="section-title" style="padding-top:60px;">Why Tampa Autohaus?</h2>
-  <p class="section-subtitle">We make buying a used car simple and stress-free</p>
-  <div class="features">
-    <div class="feature"><div class="feature-icon">&#128663;</div><h3>Quality Vehicles</h3><p>Every car is inspected to meet our quality standards before it hits the lot.</p></div>
-    <div class="feature"><div class="feature-icon">&#128176;</div><h3>Fair Prices</h3><p>Competitive pricing with no hidden fees. What you see is what you pay.</p></div>
-    <div class="feature"><div class="feature-icon">&#129309;</div><h3>No Pressure</h3><p>Take your time, ask questions, and drive away happy. No pushy salespeople.</p></div>
-    <div class="feature"><div class="feature-icon">&#128206;</div><h3>Easy Financing</h3><p>We work with multiple lenders to find the right payment plan for you.</p></div>
+<section class="why-us">
+  <div class="section" style="padding-bottom:60px;">
+    <div class="section-header">
+      <h2>Why Tampa Autohaus?</h2>
+      <p>We make buying a used car simple and stress-free</p>
+    </div>
+    <div class="features" style="padding:0;max-width:100%;">
+      <div class="feature">
+        <div class="feature-icon">&#128663;</div>
+        <h3>Quality Vehicles</h3>
+        <p>Every car is inspected to meet our quality standards before it hits the lot.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#128176;</div>
+        <h3>Fair Prices</h3>
+        <p>Competitive pricing with no hidden fees. What you see is what you pay.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#129309;</div>
+        <h3>No Pressure</h3>
+        <p>Take your time, ask questions, and drive away happy. No pushy salespeople here.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">&#128206;</div>
+        <h3>Easy Financing</h3>
+        <p>We work with multiple lenders to find the right payment plan for your budget.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="section">
-  <h2 class="section-title">Browse by Make</h2>
-  <p class="section-subtitle">Find the brand you're looking for</p>
+<div class="section">
+  <div class="section-header">
+    <h2>Browse by Category</h2>
+    <p>Find the brand or style you're looking for</p>
+  </div>
   <div class="car-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
     <% makes.forEach(m => { %>
-      <a href="<%= helpers.makeUrl(m.make) %>" class="car-card" style="text-align:center;padding:24px;">
-        <h3 style="margin:0;"><%= m.make %></h3>
-        <p style="color:var(--gray);font-size:0.9rem;margin-top:4px;">Shop Used <%= m.make %></p>
+      <a href="<%= helpers.makeUrl(m.make) %>" class="browse-card">
+        <strong><%= m.make %></strong>
+        <span>Shop Used <%= m.make %></span>
       </a>
     <% }) %>
     <% bodyStyles.forEach(bs => { %>
-      <a href="<%= helpers.bodyStyleUrl(bs.body_style) %>" class="car-card" style="text-align:center;padding:24px;">
-        <h3 style="margin:0;"><%= bs.body_style %>s</h3>
-        <p style="color:var(--gray);font-size:0.9rem;margin-top:4px;">Shop Used <%= bs.body_style %>s</p>
+      <a href="<%= helpers.bodyStyleUrl(bs.body_style) %>" class="browse-card">
+        <strong><%= bs.body_style %>s</strong>
+        <span>Shop Used <%= bs.body_style %>s</span>
       </a>
     <% }) %>
   </div>
-</section>
+</div>
 
 <section class="cta">
   <h2>Ready to Find Your Next Car?</h2>
   <p>Visit us in Tampa or give us a call. We're here to help!</p>
-  <a href="/contact" class="hero-btn">Contact Us</a>
-  <a href="tel:" class="hero-btn" style="margin-left:12px;background:white;color:var(--primary);">Call Us</a>
+  <div class="hero-actions" style="justify-content:center;">
+    <a href="/contact" class="btn-primary">Contact Us</a>
+    <a href="tel:" class="btn-outline" style="background:transparent;color:white;border-color:rgba(255,255,255,0.3);">Call Us</a>
+  </div>
 </section>
 
 <script>
