@@ -1,16 +1,27 @@
 <a href="<%= helpers.carUrl(car) %>" class="car-card">
-  <% if (car.image) { %>
-    <img class="car-img" src="<%= car.image %>" alt="<%= car.year %> <%= car.make %> <%= car.model %> for sale in Tampa" loading="lazy">
-  <% } else { %>
-    <div class="car-img-placeholder">&#128663;</div>
-  <% } %>
-  <div class="car-info">
+  <div class="car-img-wrap">
     <% if (car.featured) { %><span class="featured-badge">Featured</span><% } %>
+    <% if (car.image) { %>
+      <img class="car-img" src="<%= car.image %>" alt="<%= car.year %> <%= car.make %> <%= car.model %> for sale in Tampa" loading="lazy">
+    <% } else { %>
+      <div class="car-img-placeholder">&#128663;</div>
+    <% } %>
+  </div>
+  <div class="car-info">
     <h3><%= car.year %> <%= car.make %> <%= car.model %></h3>
     <div class="car-meta">
       <% if (car.mileage) { %><span><%= car.mileage.toLocaleString() %> mi</span><% } %>
       <% if (car.color) { %><span><%= car.color %></span><% } %>
+      <% if (car.body_style) { %><span><%= car.body_style %></span><% } %>
     </div>
-    <div class="car-price">$<%= car.price.toLocaleString() %></div>
+    <div class="car-specs-row">
+      <% if (car.mileage) { %><div class="car-spec-item"><span class="car-spec-icon">&#9201;</span><%= Math.round(car.mileage/1000) %>k mi</div><% } %>
+      <% if (car.transmission) { %><div class="car-spec-item"><span class="car-spec-icon">&#9881;</span><%= car.transmission %></div><% } %>
+      <% if (car.fuel_type) { %><div class="car-spec-item"><span class="car-spec-icon">&#9968;</span><%= car.fuel_type %></div><% } %>
+    </div>
+    <div class="car-price-row">
+      <div class="car-price">$<%= car.price.toLocaleString() %></div>
+      <span class="car-view-link">View Details &rarr;</span>
+    </div>
   </div>
 </a>
