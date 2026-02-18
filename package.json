@@ -1,7 +1,7 @@
 {
-  "name": "floridaautohaus",
+  "name": "tampaautohaus",
   "version": "1.0.0",
-  "description": "Florida Autohaus - Quality Used Cars in Tampa, FL",
+  "description": "Tampa Autohaus - Quality Used Cars in Tampa, FL",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
